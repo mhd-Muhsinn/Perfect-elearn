@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
-import 'package:perfect/cubits/cubit/my_libraby_cubit.dart';
+import 'package:perfect/cubits/chat_with_admin/my_libraby_cubit.dart';
 import 'package:perfect/screens/course_video_player_screen.dart';
 import 'package:perfect/widgets/custom_app_bar.dart';
+import 'package:perfect/widgets/custom_snackbar.dart';
 import 'package:perfect/widgets/my_course_list_card.dart';
 import 'package:perfect/widgets/my_courses_page_bottom_sheet.dart';
 
@@ -13,6 +14,7 @@ class MyCoursesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext ctx) {
+
     ctx.read<MyLibraryCubit>().loadMyCourses();
     final responsive = ResponsiveConfig(ctx);
     return Scaffold(
@@ -58,11 +60,13 @@ class MyCoursesPage extends StatelessWidget {
                         onToggleFavorite: () {
                           ctx
                               .read<MyLibraryCubit>()
-                              .toggleFavoriteCourse(course.id);
+                              .toggleFavoriteCourse(course.id,ctx,responsive);
+
                         },
                         onDeleteCourse: () {},
                         onViewCourse: () {},
                       );
+                     
                     },
                   ),
                 ),

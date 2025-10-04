@@ -46,12 +46,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
         if (state is AuthenticatedError) {
           print(state.message);
-          CustomSnackbar.show(
-            context,
-            message: state.message,
-            backgroundColor: Colors.red,
-            icon: Icons.error_outline,
-          );
+          showCustomSnackbar(
+              context: context, message: state.message, size: responsive,backgroundColor: PColors.error);
         } else if (state is Authenticated) {
           Navigator.pushNamed(context, '/homepage');
         }

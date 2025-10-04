@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
-import 'package:perfect/cubits/cubit/my_libraby_cubit.dart';
+import 'package:perfect/cubits/chat_with_admin/my_libraby_cubit.dart';
 import 'package:perfect/screens/course_video_player_screen.dart';
 import 'package:perfect/widgets/custom_app_bar.dart';
 import 'package:perfect/widgets/my_course_list_card.dart';
@@ -62,7 +62,7 @@ class MyFavoriteCoursesPage extends StatelessWidget {
                         onToggleFavorite: () {
                           ctx
                               .read<MyLibraryCubit>()
-                              .toggleFavoriteCourse(course.id);
+                              .toggleFavoriteCourse(course.id,ctx,responsive);
                         },
                         onDeleteCourse: () {},
                         onViewCourse: () {},

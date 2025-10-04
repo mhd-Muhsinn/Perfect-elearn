@@ -8,7 +8,7 @@ import 'package:perfect/cubits/nav_bar_cubit.dart';
 import 'package:perfect/screens/course_list_screen.dart';
 import 'package:perfect/screens/daily_task_page.dart';
 import 'package:perfect/screens/home_page.dart';
-import 'package:perfect/screens/inbox_page.dart';
+import 'package:perfect/screens/chat/inbox_page.dart';
 import 'package:perfect/screens/my_courses_page.dart';
 import 'package:perfect/screens/profile_page.dart';
 
@@ -40,9 +40,9 @@ class NavigationMenu extends StatelessWidget {
         size: 30,
         color: PColors.white,
       ),
-      const Icon(IconlyLight.close_square, size: 30, color: PColors.white),
+      const Icon(Icons.menu_book, size: 30, color: PColors.white),
       const Icon(IconlyLight.chat, size: 30, color: PColors.white),
-      const Icon(Icons.task, size: 30, color: PColors.white),
+      const Icon(Icons.pending_actions, size: 30, color: PColors.white),
       const Icon(IconlyLight.profile, size: 30, color: PColors.white),
     ];
 

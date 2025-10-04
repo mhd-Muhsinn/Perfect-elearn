@@ -25,7 +25,8 @@ class CourseDetailsPage extends StatelessWidget {
       child: BlocListener<PaymentBloc, PaymentState>(
           listener: (context, state) {
             if (state is PaymentSuccess) {
-              CustomSnackbar.show(context, message: 'COURSE PURCHASED...');
+              showCustomSnackbar(
+                  context: context, message: 'COURSE PURCHASED...', size: size,backgroundColor: PColors.success);
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -33,9 +34,9 @@ class CourseDetailsPage extends StatelessWidget {
                           CourseVideoPlayerScreen(course: course)));
             }
             if (state is PaymentFailure) {
-              CustomSnackbar.show(ctx,
-                  message: "Payment failed retry..",
-                  backgroundColor: PColors.error);
+               showCustomSnackbar(
+                  context: context, message: 'Payment failed retry..', size: size,backgroundColor: PColors.error);
+            
             }
           },
           child: Scaffold(

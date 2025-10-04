@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
-import 'package:perfect/cubits/cubit/course_list_cubit.dart';
+import 'package:perfect/cubits/chat_with_admin/course_list_cubit.dart';
 import 'package:perfect/cubits/video_player_cubit.dart';
 import 'package:perfect/models/course_model.dart';
 import 'package:perfect/widgets/custom_app_bar.dart';
@@ -21,9 +21,7 @@ class CourseVideoPlayerScreen extends StatelessWidget {
     final size = ResponsiveConfig(context);
     context.read<CourseListCubit>().loadcourse();
     return BlocProvider(
-      create: (context) => VideoPlayerCubit(
-        VideoPlayerController.networkUrl(Uri.parse(course.videos.first['video_url'])),
-      ),
+      create: (context) => VideoPlayerCubit(VideoPlayerController.networkUrl( Uri.parse(course.videos.first['video_url'])),),
       child: Scaffold(
         extendBodyBehindAppBar: true,
         extendBody: true,
@@ -31,8 +29,12 @@ class CourseVideoPlayerScreen extends StatelessWidget {
         appBar: CustomAppBar(title: ''),
         body: Column(
           children: [
-            _buildvideoplayerSEction(size),
+            // video player widget
+            _buildVideoPlayerSection(size),
+
             SizedBox(height: size.percentHeight(0.02)),
+
+            //tabbar for description and video lists
             Expanded(
                 child: _buildDescriptionandvideoListSection(size, context)),
           ],
@@ -41,17 +43,18 @@ class CourseVideoPlayerScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildvideoplayerSEction(ResponsiveConfig size) {
-    return Column(
-      children: [
-        Container(
+  Widget _buildVideoPlayerSection(ResponsiveConfig size) {
+    return BlocBuilder<VideoPlayerCubit, VideoPlayerState>(
+      builder: (context, state) {
+        if (!state.initialized) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return Container(
           width: size.percentWidth(0.94),
           color: PColors.primary,
-          child: CourseVideoPlayer(
-            size: size,
-          ),
-        ),
-      ],
+          child: CourseVideoPlayer(size: size,course: course,),
+        );
+      },
     );
   }
 
@@ -189,5 +192,4 @@ class CourseVideoPlayerScreen extends StatelessWidget {
       },
     );
   }
-
 }

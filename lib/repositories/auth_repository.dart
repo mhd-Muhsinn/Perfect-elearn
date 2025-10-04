@@ -24,28 +24,27 @@ class AuthRepository {
     return _user;
   }
 
-Future<User?> signInUser(String email, String password) async {
-  final credential = await _auth.signInWithEmailAndPassword(
-    email: email,
-    password: password,
-  );
-
-  final uid = credential.user!.uid;
-
-  // Check if user document exists in the 'users' collection
-  final userDoc = await _operations.getUser(uid);
-
-  if (!userDoc.exists) {
-    await _auth.signOut();
-    throw FirebaseAuthException(
-      code: 'not-a-user',
-      message: 'Access denied. You are not a student user.',
+  Future<User?> signInUser(String email, String password) async {
+    final credential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
     );
+
+    final uid = credential.user!.uid;
+
+    // Check if user document exists in the 'users' collection
+    final userDoc = await _operations.getUser(uid);
+
+    if (!userDoc.exists) {
+      await _auth.signOut();
+      throw FirebaseAuthException(
+        code: 'not-a-user',
+        message: 'Access denied. You are not a student user.',
+      );
+    }
+
+    return credential.user;
   }
-
-  return credential.user;
-}
-
 
   Future<GoogleSignInResult?> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await _googleUser.signIn();
@@ -72,11 +71,13 @@ Future<User?> signInUser(String email, String password) async {
       return false;
     }
   }
+
   Future<void> forgotPasswordemail(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
-  completeProfile(UserModel user,uid) async {
-    _operations.setUser(user,uid);
+
+  completeProfile(UserModel user, uid) async {
+    _operations.setUser(user, uid);
   }
 
   signout() async {

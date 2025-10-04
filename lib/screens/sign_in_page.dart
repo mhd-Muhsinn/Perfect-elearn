@@ -38,14 +38,10 @@ class _SignInScreenState extends State<SignInScreen> {
           );
         }
         if (state is AuthenticatedError) {
-          CustomSnackbar.show(
-            context,
-            message: state.message,
-            backgroundColor: PColors.error,
-            icon: Icons.error_outline,
-          );
+          showCustomSnackbar(
+              context: context, message: state.message, size: responsive,backgroundColor: PColors.error);
         } else if (state is Authenticated) {
-          Navigator.pushNamed(context,'/homepage');
+          Navigator.pushNamed(context, '/homepage');
         }
       },
       child: Scaffold(
@@ -117,7 +113,7 @@ class _SignInScreenState extends State<SignInScreen> {
       hintText: "Enter Your email",
       prefixIcon: Icons.email,
       validator: (value) {
-         return Validator.validateEmail(value);
+        return Validator.validateEmail(value);
       },
     );
   }
@@ -129,7 +125,7 @@ class _SignInScreenState extends State<SignInScreen> {
       prefixIcon: Icons.lock,
       obscureText: true,
       validator: (value) {
-          return Validator.validatePassword(value);
+        return Validator.validatePassword(value);
       },
     );
   }
@@ -146,8 +142,7 @@ class _SignInScreenState extends State<SignInScreen> {
         },
         child: Text(
           'Forgot Password?',
-          style: TextStyle(
-              color: PColors.primary, fontWeight: FontWeight.bold),
+          style: TextStyle(color: PColors.primary, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -184,7 +179,7 @@ class _SignInScreenState extends State<SignInScreen> {
             TextFormField(
               controller: emailController,
               validator: (value) {
-               return Validator.validateEmail(value);
+                return Validator.validateEmail(value);
               },
               decoration: InputDecoration(
                 hintText: "Email",

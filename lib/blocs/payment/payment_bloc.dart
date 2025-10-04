@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:perfect/models/course_model.dart';
-import 'package:perfect/services/razor_pay_service.dart';
+import 'package:perfect/services/payment_gateway/razor_pay_service.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 part 'payment_event.dart';

@@ -16,13 +16,12 @@ class VideoPlayerState {
     required this.showControls,
   });
 
-  VideoPlayerState copyWith({
-    bool? isPlaying,
-    Duration? position,
-    Duration? duration,
-    bool? initialized,
-    bool? showControls
-  }) {
+  VideoPlayerState copyWith(
+      {bool? isPlaying,
+      Duration? position,
+      Duration? duration,
+      bool? initialized,
+      bool? showControls}) {
     return VideoPlayerState(
       isPlaying: isPlaying ?? this.isPlaying,
       position: position ?? this.position,

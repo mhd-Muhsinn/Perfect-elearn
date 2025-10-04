@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/cubits/obscure_text_cubit.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -55,7 +56,7 @@ class CustomTextFormField extends StatelessWidget {
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
         prefixText: prefixText,
-        prefixIcon: Icon(prefixIcon, color: Colors.blue),
+        prefixIcon: Icon(prefixIcon, color: PColors.primary),
         suffixIcon: obscureText
             ? IconButton(
                 icon: Icon(
@@ -68,7 +69,8 @@ class CustomTextFormField extends StatelessWidget {
               )
             : suffixIcon,
         labelText: hintText,
-        labelStyle: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w400),
+        labelStyle:
+            TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w400),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,

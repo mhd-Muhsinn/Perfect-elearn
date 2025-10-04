@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
+import 'package:perfect/models/course_model.dart';
 import 'package:video_player/video_player.dart';
 import 'package:perfect/cubits/video_player_cubit.dart';
 
 class CourseVideoPlayer extends StatelessWidget {
   final ResponsiveConfig size;
-  const CourseVideoPlayer({Key? key, required this.size}) : super(key: key);
+  final Course course;
+   CourseVideoPlayer({Key? key, required this.size, required this.course}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<VideoPlayerCubit, VideoPlayerState>(
       builder: (context, state) {
         final cubit = context.read<VideoPlayerCubit>();
-
         if (!state.initialized) {
           return const Center(child: CircularProgressIndicator());
         }
-
         return SizedBox(
           height: size.percentHeight(0.3),
           child: GestureDetector(
@@ -27,7 +27,6 @@ class CourseVideoPlayer extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 VideoPlayer(cubit.controller),
-
                 if (state.showControls)
                   Positioned(
                     bottom: 20,
@@ -59,7 +58,6 @@ class CourseVideoPlayer extends StatelessWidget {
                       ],
                     ),
                   ),
-
                 Positioned(
                   bottom: 0,
                   left: 0,

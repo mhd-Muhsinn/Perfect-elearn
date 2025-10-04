@@ -73,7 +73,7 @@ class MyLibraryCubit extends Cubit<MyLibraryState> {
     }
   }
 
-void toggleFavoriteCourse(String courseId) async {
+void toggleFavoriteCourse(String courseId,BuildContext ctx,ResponsiveConfig size) async {
   emit(state.copyWith(loading: true, error: null));
   try {
     if (userId == null) throw Exception("User not authenticated");
@@ -88,9 +88,14 @@ void toggleFavoriteCourse(String courseId) async {
       if (favorites.contains(courseId)) {
         // remove
         favorites.remove(courseId);
+          showCustomSnackbar(
+              context: ctx, message: 'Removed from favorites', size: size,backgroundColor: PColors.primary,icon: Icons.heart_broken);
+       
       } else {
         // add
         favorites.add(courseId);
+                  showCustomSnackbar(
+              context: ctx, message: 'Course added to favorites', size: size,backgroundColor: PColors.primary,icon: Icons.favorite);
       }
 
       await userRef.update({'favorites': favorites});

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
-import 'package:perfect/cubits/cubit/course_list_cubit.dart';
+import 'package:perfect/cubits/chat_with_admin/course_list_cubit.dart';
 import 'package:perfect/widgets/filter_bottom_sheet.dart';
 
 class SearchBox extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:perfect/cubits/cubit/course_list_state.dart';
+import 'package:perfect/cubits/chat_with_admin/course_list_state.dart';
 import 'package:perfect/models/course_model.dart';
 import 'package:perfect/repositories/course_repository.dart';
 

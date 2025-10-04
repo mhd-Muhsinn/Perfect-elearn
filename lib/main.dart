@@ -2,9 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfect/blocs/auth/auth_bloc.dart';
-import 'package:perfect/cubits/cubit/course_list_cubit.dart';
-import 'package:perfect/cubits/cubit/cubit/course_selection_cubit.dart';
-import 'package:perfect/cubits/cubit/my_libraby_cubit.dart';
+import 'package:perfect/blocs/chat_message/chat_message_bloc.dart';
+import 'package:perfect/cubits/chat_with_admin/chat_with_admin_cubit.dart';
+import 'package:perfect/cubits/chat_with_admin/course_list_cubit.dart';
+import 'package:perfect/cubits/course_selection_cubit/course_selection_cubit.dart';
+import 'package:perfect/cubits/chat_with_admin/my_libraby_cubit.dart';
+import 'package:perfect/cubits/video_player_cubit.dart';
 import 'package:perfect/firebase_options.dart';
 import 'package:perfect/core/routing/routes.dart';
 import 'package:perfect/repositories/auth_repository.dart';
@@ -18,23 +21,25 @@ void main() async {
   final authrepository = AuthRepository();
   runApp(MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_)=>MyLibraryCubit()),
+        BlocProvider(create: (_) => MyLibraryCubit()),
         BlocProvider(
             create: (_) =>
                 AuthBloc(authrepository)..add(CheckLoginStatusEvent())),
         BlocProvider(
-            create: (context) => CourseSelectionCubit(),
-          ),
-          
+          create: (context) => CourseSelectionCubit(),
+        ),
+        BlocProvider(create: (context) => ChatMessageBloc()),
+        BlocProvider(create: (context)=> ChatWithAdminCubit()),
+        
       ],
       child: RepositoryProvider(
-        create: (context) => CoursesRepository(),
-        child: BlocProvider(
-        create: (context) =>
-            CourseListCubit(context.read<CoursesRepository>())..loadCourses(),
-       child: MyApp(), 
-      )
-      )));
+          create: (context) => CoursesRepository(),
+          child: BlocProvider(
+            create: (context) =>
+                CourseListCubit(context.read<CoursesRepository>())
+                  ..loadCourses(),
+            child: MyApp(),
+          ))));
 }
 
 class MyApp extends StatelessWidget {
