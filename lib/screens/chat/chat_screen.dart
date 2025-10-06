@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:perfect/blocs/chat_message/chat_message_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
-import 'package:perfect/services/chat/chat_service.dart';
 import 'package:perfect/widgets/custom_app_bar.dart';
 import 'package:perfect/widgets/custom_text_form_field.dart';
+import 'package:perfect/widgets/message_box.dart';
 
 class ChatScreen extends StatelessWidget {
   final String tutorId;
@@ -63,10 +62,7 @@ class ChatScreen extends StatelessWidget {
     //message alignment
     bool isAdmin = msg["senderID"] == tutorId;
     var alignment = isAdmin ? Alignment.centerLeft : Alignment.centerRight;
-    return Container(
-        alignment: alignment,
-        margin: EdgeInsets.only(right: 25),
-        child: Text(msg["message"]));
+    return MessageBox(alignment: alignment,msg: msg["message"],);
   }
 
   Widget _buildMessageBox(BuildContext context) {
@@ -102,3 +98,5 @@ class ChatScreen extends StatelessWidget {
     );
   }
 }
+
+

@@ -22,17 +22,17 @@ class GoogleAuthenticated extends AuthState {
 
 class NeedProfileCompletion extends AuthState {
   final User user;
-  NeedProfileCompletion(this.user);
+  const NeedProfileCompletion(this.user);
 }
 
 class UnAuthenticated extends AuthState {
   final String? message;
-  UnAuthenticated({this.message});
+  const UnAuthenticated({this.message});
 }
 
 class AuthenticatedError extends AuthState {
   final String message;
-  AuthenticatedError({required this.message});
+  const AuthenticatedError({required this.message});
 }
 
 class ProfileCompleted extends AuthState {}
@@ -48,5 +48,5 @@ class ForgotPasswordSuccess extends AuthState {}
 
 class ForgotPasswordFailure extends AuthState {
   final String message;
-  ForgotPasswordFailure({required this.message});
+  const ForgotPasswordFailure({required this.message});
 }

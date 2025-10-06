@@ -5,7 +5,6 @@ import 'package:perfect/core/utils/configs/resposive_config.dart';
 import 'package:perfect/cubits/chat_with_admin/my_libraby_cubit.dart';
 import 'package:perfect/screens/course_video_player_screen.dart';
 import 'package:perfect/widgets/custom_app_bar.dart';
-import 'package:perfect/widgets/custom_snackbar.dart';
 import 'package:perfect/widgets/my_course_list_card.dart';
 import 'package:perfect/widgets/my_courses_page_bottom_sheet.dart';
 
@@ -43,7 +42,7 @@ class MyCoursesPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                CourseVideoPlayerScreen(course: course)));
+                                CourseScreenWithVideo(course: course)));
                   },
                   child: MyCourseListCard(
                     name: course.name,

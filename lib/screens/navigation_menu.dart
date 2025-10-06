@@ -9,7 +9,6 @@ import 'package:perfect/screens/course_list_screen.dart';
 import 'package:perfect/screens/daily_task_page.dart';
 import 'package:perfect/screens/home_page.dart';
 import 'package:perfect/screens/chat/inbox_page.dart';
-import 'package:perfect/screens/my_courses_page.dart';
 import 'package:perfect/screens/profile_page.dart';
 
 class NavigationMenuWrapper extends StatelessWidget {

@@ -7,7 +7,7 @@ import 'package:perfect/widgets/filter_bottom_sheet.dart';
 
 class SearchBox extends StatelessWidget {
   final ResponsiveConfig responsive;
-  SearchBox({super.key, required this.responsive});
+  const SearchBox({super.key, required this.responsive});
 
   @override
   Widget build(BuildContext context) {

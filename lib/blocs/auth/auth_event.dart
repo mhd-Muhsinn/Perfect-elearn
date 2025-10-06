@@ -13,13 +13,13 @@ class CheckLoginStatusEvent extends AuthEvent {}
 class SignInEvent extends AuthEvent {
   final String email;
   final String password;
-  SignInEvent({required this.email, required this.password});
+  const SignInEvent({required this.email, required this.password});
 }
 
 //SignUP or Register
 class SignUpEvent extends AuthEvent {
   final UserModel user;
-  SignUpEvent({required this.user});
+  const SignUpEvent({required this.user});
 }
 
 //Googlesign
@@ -29,13 +29,13 @@ class GoogleSignInEvent extends AuthEvent {}
 class CompleteProfileEvent extends AuthEvent {
   final UserModel user;
   final String? uid;
-  CompleteProfileEvent({required this.user, required this.uid});
+  const CompleteProfileEvent({required this.user, required this.uid});
 }
 
 //ForgotPassword
 class ForgotPasswordEvent extends AuthEvent {
   final String email;
-  ForgotPasswordEvent({required this.email});
+  const ForgotPasswordEvent({required this.email});
 }
 
 //Logout

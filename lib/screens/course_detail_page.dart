@@ -55,7 +55,7 @@ class CourseDetailsPage extends StatelessWidget {
 }
 
 Widget _buildThumbnailSection(Course course, ResponsiveConfig size) {
-  return Container(
+  return SizedBox(
       height: size.percentHeight(0.27),
       width: size.percentWidth(1),
       child: Image.network(
@@ -211,7 +211,7 @@ Widget _buildClassesTab(
 class _HeaderImage extends StatelessWidget {
   final String imageUrl;
   final Object? heroTag;
-  const _HeaderImage({required this.imageUrl, this.heroTag});
+   _HeaderImage({required this.imageUrl, this.heroTag});
 
   @override
   Widget build(BuildContext context) {

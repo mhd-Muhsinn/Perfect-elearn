@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
-import 'package:perfect/core/utils/text_cutoff_helper.dart';
 import 'package:perfect/models/course_model.dart';
 import 'package:shimmer/shimmer.dart';
 

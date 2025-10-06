@@ -45,7 +45,7 @@ class MyFavoriteCoursesPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                CourseVideoPlayerScreen(course: course)));
+                                CourseScreenWithVideo(course: course)));
                   },
                   child: MyCourseListCard(
                     name: course.name,

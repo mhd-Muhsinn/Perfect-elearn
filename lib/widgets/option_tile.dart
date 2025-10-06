@@ -6,7 +6,7 @@ class ProfileOptionTile extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-  ProfileOptionTile({
+  const ProfileOptionTile({
     required this.icon,
     required this.title,
     super.key,

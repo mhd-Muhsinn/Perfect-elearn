@@ -44,7 +44,7 @@ class CarouselWidget extends StatelessWidget {
               builder: (BuildContext context) {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Container(
+                  child: SizedBox(
                     width: size.percentWidth(0.80),
                     child: Image.network(
                       url,

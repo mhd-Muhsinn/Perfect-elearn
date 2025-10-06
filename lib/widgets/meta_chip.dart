@@ -4,7 +4,7 @@ import 'package:perfect/widgets/tag_chip.dart';
 
 class MetaChips extends StatelessWidget {
   final List<(String, String)> items;
-  const MetaChips({required this.items});
+  const MetaChips({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class MetaChips extends StatelessWidget {
           .where((e) => e.$2.trim().isNotEmpty)
           .map((e) => TagChip(
                 leadingIcon: Icons.category_outlined,
-                label: '${e.$2}',
+                label: e.$2,
                 background: PColors.primary,
                 foreground: PColors.backgrndPrimary,
               ))

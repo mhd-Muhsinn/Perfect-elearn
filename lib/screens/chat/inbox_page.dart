@@ -5,7 +5,6 @@ import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
 import 'package:perfect/cubits/chat_with_admin/chat_with_admin_cubit.dart';
 import 'package:perfect/screens/chat/chat_screen.dart';
-import 'package:perfect/services/chat/chat_service.dart';
 import 'package:perfect/widgets/chat_tile.dart';
 import 'package:perfect/widgets/custom_app_bar.dart';
 

@@ -7,7 +7,6 @@ import 'package:perfect/cubits/chat_with_admin/chat_with_admin_cubit.dart';
 import 'package:perfect/cubits/chat_with_admin/course_list_cubit.dart';
 import 'package:perfect/cubits/course_selection_cubit/course_selection_cubit.dart';
 import 'package:perfect/cubits/chat_with_admin/my_libraby_cubit.dart';
-import 'package:perfect/cubits/video_player_cubit.dart';
 import 'package:perfect/firebase_options.dart';
 import 'package:perfect/core/routing/routes.dart';
 import 'package:perfect/repositories/auth_repository.dart';

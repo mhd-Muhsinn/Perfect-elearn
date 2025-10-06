@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
@@ -12,6 +11,23 @@ import 'package:perfect/widgets/tag_chip.dart';
 import 'package:perfect/widgets/video_player.dart';
 import 'package:video_player/video_player.dart';
 
+class CourseScreenWithVideo extends StatelessWidget {
+  final Course course;
+  const CourseScreenWithVideo({required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => VideoPlayerCubit(
+        VideoPlayerController.networkUrl(
+          Uri.parse(course.videos.first['video_url']),
+        ),
+      ),
+      child: CourseVideoPlayerScreen(course: course),
+    );
+  }
+}
+
 class CourseVideoPlayerScreen extends StatelessWidget {
   final Course course;
   const CourseVideoPlayerScreen({super.key, required this.course});
@@ -20,25 +36,21 @@ class CourseVideoPlayerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = ResponsiveConfig(context);
     context.read<CourseListCubit>().loadcourse();
-    return BlocProvider(
-      create: (context) => VideoPlayerCubit(VideoPlayerController.networkUrl( Uri.parse(course.videos.first['video_url'])),),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        backgroundColor: PColors.containerBackground,
-        appBar: CustomAppBar(title: ''),
-        body: Column(
-          children: [
-            // video player widget
-            _buildVideoPlayerSection(size),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      backgroundColor: PColors.containerBackground,
+      appBar: CustomAppBar(title: ''),
+      body: Column(
+        children: [
+          // video player widget
+          _buildVideoPlayerSection(size),
 
-            SizedBox(height: size.percentHeight(0.02)),
+          SizedBox(height: size.percentHeight(0.02)),
 
-            //tabbar for description and video lists
-            Expanded(
-                child: _buildDescriptionandvideoListSection(size, context)),
-          ],
-        ),
+          //tabbar for description and video lists
+          Expanded(child: _buildDescriptionandvideoListSection(size, context)),
+        ],
       ),
     );
   }
@@ -47,12 +59,17 @@ class CourseVideoPlayerScreen extends StatelessWidget {
     return BlocBuilder<VideoPlayerCubit, VideoPlayerState>(
       builder: (context, state) {
         if (!state.initialized) {
-          return const Center(child: CircularProgressIndicator());
+          return Container(
+            height: size.percentHeight(0.3),
+          );
         }
         return Container(
           width: size.percentWidth(0.94),
           color: PColors.primary,
-          child: CourseVideoPlayer(size: size,course: course,),
+          child: CourseVideoPlayer(
+            size: size,
+            course: course,
+          ),
         );
       },
     );

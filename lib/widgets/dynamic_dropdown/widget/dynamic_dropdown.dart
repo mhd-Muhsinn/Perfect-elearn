@@ -30,7 +30,7 @@ class DynamicDropdown extends StatelessWidget {
             decoration: InputDecoration(labelText: title,fillColor: PColors.primaryVariant,border: OutlineInputBorder()),
             value: items.contains(currentValue) ? currentValue : null,
             items: [
-              ...items.map((e) => DropdownMenuItem(child: Text(e), value: e)),
+              ...items.map((e) => DropdownMenuItem(value: e, child: Text(e))),
            
             ],
             onChanged: (val) async {

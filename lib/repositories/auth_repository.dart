@@ -17,11 +17,11 @@ class AuthRepository {
     final userCredential = await _auth.createUserWithEmailAndPassword(
         email: user.email.toString(), password: user.password.toString());
 
-    final _user = userCredential.user;
-    if (_user != null) {
-      _operations.setUser(user, _user.uid);
+    final user0 = userCredential.user;
+    if (user0 != null) {
+      _operations.setUser(user, user0.uid);
     }
-    return _user;
+    return user0;
   }
 
   Future<User?> signInUser(String email, String password) async {

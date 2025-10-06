@@ -83,9 +83,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future _signUp(SignUpEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      final _user = await _authRepository.signUpUser(event.user);
-      if (_user != null) {
-        emit(Authenticated(_user));
+      final user = await _authRepository.signUpUser(event.user);
+      if (user != null) {
+        emit(Authenticated(user));
       } else {
         emit(UnAuthenticated());
       }

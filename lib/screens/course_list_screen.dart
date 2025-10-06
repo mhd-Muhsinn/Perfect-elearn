@@ -7,9 +7,6 @@ import 'package:perfect/cubits/chat_with_admin/course_list_cubit.dart';
 import 'package:perfect/cubits/chat_with_admin/course_list_state.dart';
 import 'package:perfect/repositories/course_repository.dart';
 import 'package:perfect/screens/course_detail_page.dart';
-import 'package:perfect/screens/my_courses_page.dart';
-import 'package:perfect/screens/my_favorite_courses_page.dart';
-import 'package:perfect/widgets/category_card.dart';
 import 'package:perfect/widgets/course_card.dart';
 import 'package:perfect/widgets/search_box.dart';
 

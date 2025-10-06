@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:perfect/models/course_model.dart';
 import 'package:perfect/screens/course_list_screen.dart';
 import 'package:perfect/screens/course_video_player_screen.dart';
-import 'package:perfect/screens/home_page.dart';
 import 'package:perfect/screens/profile_completion_page.dart';
 import 'package:perfect/screens/screens_exports.dart';
 import 'package:perfect/screens/sign_in_page.dart';

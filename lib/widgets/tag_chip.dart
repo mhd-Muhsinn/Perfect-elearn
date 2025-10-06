@@ -8,7 +8,7 @@ class TagChip extends StatelessWidget {
   final Color? foreground;
   final String? tooltip;
 
-  const TagChip({
+  const TagChip({super.key, 
     required this.label,
     this.leadingIcon,
     this.background,
@@ -19,7 +19,7 @@ class TagChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final bg = background ?? theme.colorScheme.surfaceVariant;
+    final bg = background ?? theme.colorScheme.surfaceContainerHighest;
     final fg = foreground ?? theme.colorScheme.onSurfaceVariant;
 
     final chip = Container(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
 import 'package:perfect/models/course_model.dart';
 import 'package:video_player/video_player.dart';
@@ -9,7 +8,7 @@ import 'package:perfect/cubits/video_player_cubit.dart';
 class CourseVideoPlayer extends StatelessWidget {
   final ResponsiveConfig size;
   final Course course;
-   CourseVideoPlayer({Key? key, required this.size, required this.course}) : super(key: key);
+   const CourseVideoPlayer({super.key, required this.size, required this.course});
 
   @override
   Widget build(BuildContext context) {
