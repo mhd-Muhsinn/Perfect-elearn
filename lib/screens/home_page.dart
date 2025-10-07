@@ -6,6 +6,8 @@ import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
 import 'package:perfect/cubits/chat_with_admin/course_list_cubit.dart';
 import 'package:perfect/cubits/chat_with_admin/course_list_state.dart';
+import 'package:perfect/cubits/course_progress/course_progess_cubit.dart';
+import 'package:perfect/cubits/course_progress/course_progress_state.dart';
 import 'package:perfect/repositories/course_repository.dart';
 import 'package:perfect/screens/course_detail_page.dart';
 import 'package:perfect/screens/my_courses_page.dart';
@@ -20,7 +22,7 @@ class HomePageWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          CourseListCubit(context.read<CoursesRepository>())..loadCourses(),
+          CourseListCubit(context.read<CoursesRepository>())..loadcourse(),
       child: HomePage(),
     );
   }
@@ -30,7 +32,6 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
-    context.read<CourseListCubit>().loadcourse();
     final config = ResponsiveConfig(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -45,6 +46,8 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _builcarousel(config),
+              SizedBox(height: config.spacingSmall),
+              _buildProgreebarsection(),
               SizedBox(height: config.spacingSmall),
               _buildenrolledandfavourites(context),
               SizedBox(height: config.spacingMedium),
@@ -91,8 +94,12 @@ class HomePage extends StatelessWidget {
                     right: config.spacingSmall,
                   ),
                   child: InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>CourseDetailsPage(course: course) ));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CourseDetailsPage(course: course)));
                     },
                     child: _courseCard(
                       config,
@@ -111,7 +118,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
- Row _buildenrolledandfavourites(BuildContext context) {
+  Row _buildenrolledandfavourites(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -137,143 +144,208 @@ class HomePage extends StatelessWidget {
                 child: CategoryCard(title: 'Favorite Courses'))),
       ],
     );
-  }}
-
-  Widget _courseCard(
-    ResponsiveConfig config, {
-    required String title,
-    required String price,
-    required String thumbnailUrl,
-  }) {
-    return Container(
-      width: config.percentWidth(0.50),
-      decoration: BoxDecoration(
-        color: PColors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(color: PColors.grey, blurRadius: 6, offset: Offset(0, 3)),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: thumbnailUrl.isNotEmpty
-                ? Image.network(
-                    thumbnailUrl,
-                    height: config.percentHeight(0.15),
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-                : Container(
-                    height: config.percentHeight(0.15),
-                    color: Colors.black12,
-                    child: Icon(Icons.image, color: Colors.grey, size: 40),
-                  ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(config.blocksizehorizontal * 3),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w500, fontSize: 14),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis),
-                const SizedBox(height: 4),
-                Text(price,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: PColors.primary)),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
+}
 
-  PreferredSizeWidget _Appbar() {
-    return AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        title: Text("Hi Muhsin..", style: GoogleFonts.acme()),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon:
-                  Badge.count(count: 1, child: Icon(IconlyLight.notification)))
-        ]);
-  }
-
-  Widget _builcarousel(ResponsiveConfig size) {
-    return Column(
-      children: [SizedBox(height: size.spacingMedium), CarouselWidget()],
-    );
-  }
-
-  Widget _quizCard(ResponsiveConfig config,
-      {required IconData icon,
-      required String title,
-      required String subtitle}) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: config.blocksizehorizontal * 4,
-          vertical: config.blocksizeveritical * 1.5),
-      decoration: BoxDecoration(
-        color: PColors.backgrndPrimary,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(color: PColors.grey, blurRadius: 5, offset: Offset(0, 3))
-        ],
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 22,
-            backgroundColor: PColors.primary.withOpacity(0.1),
-            child: Icon(icon, color: PColors.primary, size: 24),
-          ),
-          SizedBox(width: config.blocksizehorizontal * 4),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                SizedBox(height: 4),
-                Text(subtitle,
-                    style: TextStyle(fontSize: 12, color: PColors.grey)),
-              ],
-            ),
-          ),
-          Icon(Icons.chevron_right, color: PColors.grey),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildquizSection(ResponsiveConfig config) {
-    return Column(
+Widget _courseCard(
+  ResponsiveConfig config, {
+  required String title,
+  required String price,
+  required String thumbnailUrl,
+}) {
+  return Container(
+    width: config.percentWidth(0.50),
+    decoration: BoxDecoration(
+      color: PColors.white,
+      borderRadius: BorderRadius.circular(16),
+      boxShadow: [
+        BoxShadow(color: PColors.grey, blurRadius: 6, offset: Offset(0, 3)),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //  Quiz Cards
-        _quizCard(
-          config,
-          icon: Icons.bar_chart,
-          title: "DEVCLASH",
-          subtitle: "Aptitude • 12 Questions",
+        ClipRRect(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          child: thumbnailUrl.isNotEmpty
+              ? Image.network(
+                  thumbnailUrl,
+                  height: config.percentHeight(0.15),
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )
+              : Container(
+                  height: config.percentHeight(0.15),
+                  color: Colors.black12,
+                  child: Icon(Icons.image, color: Colors.grey, size: 40),
+                ),
         ),
-        SizedBox(height: config.spacingSmall),
-        _quizCard(
-          config,
-          icon: Icons.functions,
-          title: "xxys",
-          subtitle: "DSA • 10 Questions",
+        Padding(
+          padding: EdgeInsets.all(config.blocksizehorizontal * 3),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, fontSize: 14),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
+              const SizedBox(height: 4),
+              Text(price,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: PColors.primary)),
+            ],
+          ),
         ),
       ],
-    );
-  }
+    ),
+  );
+}
 
+PreferredSizeWidget _Appbar() {
+  return AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: Colors.transparent,
+      title: Text("Hi Muhsin..", style: GoogleFonts.acme()),
+      actions: [
+        IconButton(
+            onPressed: () {},
+            icon: Badge.count(count: 1, child: Icon(IconlyLight.notification)))
+      ]);
+}
+
+Widget _builcarousel(ResponsiveConfig size) {
+  return Column(
+    children: [SizedBox(height: size.spacingMedium), CarouselWidget()],
+  );
+}
+
+Widget _quizCard(ResponsiveConfig config,
+    {required IconData icon, required String title, required String subtitle}) {
+  return Container(
+    padding: EdgeInsets.symmetric(
+        horizontal: config.blocksizehorizontal * 4,
+        vertical: config.blocksizeveritical * 1.5),
+    decoration: BoxDecoration(
+      color: PColors.backgrndPrimary,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: Colors.grey.shade200),
+      boxShadow: [
+        BoxShadow(color: PColors.grey, blurRadius: 5, offset: Offset(0, 3))
+      ],
+    ),
+    child: Row(
+      children: [
+        CircleAvatar(
+          radius: 22,
+          backgroundColor: PColors.primary.withOpacity(0.1),
+          child: Icon(icon, color: PColors.primary, size: 24),
+        ),
+        SizedBox(width: config.blocksizehorizontal * 4),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              SizedBox(height: 4),
+              Text(subtitle,
+                  style: TextStyle(fontSize: 12, color: PColors.grey)),
+            ],
+          ),
+        ),
+        Icon(Icons.chevron_right, color: PColors.grey),
+      ],
+    ),
+  );
+}
+
+Widget _buildProgreebarsection() {
+  return BlocBuilder<CourseProgressCubit, CourseProgressState>(
+    builder: (context, state) {
+      final courseIds = state.completedVideos.keys.toList();
+      if (courseIds.isEmpty) {
+        return const Text("No progress yet");
+      }
+      return SizedBox(
+        height: 130,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: courseIds.map((courseId) {
+              final totalVideos = state.totalVideos[courseId] ?? 0;
+              final completedCount =
+                  state.completedVideos[courseId]?.length ?? 0;
+              final percent =
+                  totalVideos == 0 ? 0.0 : completedCount / totalVideos;
+              final courseName =
+                  state.courseNames[courseId] ?? 'Unknown Course';
+
+              return ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minWidth: 180,
+                  maxWidth: 220,
+                  minHeight: 120,
+                  maxHeight: 150,
+                ),
+                child: Card(
+                  color: PColors.backgrndPrimary,
+                  margin: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          courseName,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 13),
+                        ),
+                        const SizedBox(height: 10),
+                        LinearProgressIndicator(
+                          value: percent,
+                          minHeight: 10,
+                          backgroundColor: Colors.grey[300],
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "$completedCount of $totalVideos classes completed",
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+Widget _buildquizSection(ResponsiveConfig config) {
+  return Column(
+    children: [
+      //  Quiz Cards
+      _quizCard(
+        config,
+        icon: Icons.bar_chart,
+        title: "DEVCLASH",
+        subtitle: "Aptitude • 12 Questions",
+      ),
+      SizedBox(height: config.spacingSmall),
+      _quizCard(
+        config,
+        icon: Icons.functions,
+        title: "xxys",
+        subtitle: "DSA • 10 Questions",
+      ),
+    ],
+  );
+}

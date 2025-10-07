@@ -21,7 +21,8 @@ class CourseScreenWithVideo extends StatelessWidget {
       create: (context) => VideoPlayerCubit(
         VideoPlayerController.networkUrl(
           Uri.parse(course.videos.first['video_url']),
-        ),
+          
+        ), courseId: course.id, videoId: course.videos.first['videoDocId'],
       ),
       child: CourseVideoPlayerScreen(course: course),
     );
@@ -31,7 +32,6 @@ class CourseScreenWithVideo extends StatelessWidget {
 class CourseVideoPlayerScreen extends StatelessWidget {
   final Course course;
   const CourseVideoPlayerScreen({super.key, required this.course});
-
   @override
   Widget build(BuildContext context) {
     final size = ResponsiveConfig(context);
@@ -202,7 +202,7 @@ class CourseVideoPlayerScreen extends StatelessWidget {
                 )),
             title: Text(video['title'] ?? "Video ${index + 1}"),
             onTap: () {
-              context.read<VideoPlayerCubit>().loadVideo(video['video_url']);
+              context.read<VideoPlayerCubit>().loadVideo(video['video_url'],course.id,video['videoDocId']);
             },
           ),
         );

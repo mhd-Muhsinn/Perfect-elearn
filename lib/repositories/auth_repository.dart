@@ -13,6 +13,10 @@ class AuthRepository {
     return _auth.currentUser;
   }
 
+    String getCurrentUserId() {
+    return _auth.currentUser!.uid;
+  }
+
   Future<User?> signUpUser(UserModel user) async {
     final userCredential = await _auth.createUserWithEmailAndPassword(
         email: user.email.toString(), password: user.password.toString());

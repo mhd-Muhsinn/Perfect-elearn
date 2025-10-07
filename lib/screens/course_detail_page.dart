@@ -31,7 +31,7 @@ class CourseDetailsPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          CourseVideoPlayerScreen(course: course)));
+                          CourseScreenWithVideo(course: course)));
             }
             if (state is PaymentFailure) {
                showCustomSnackbar(

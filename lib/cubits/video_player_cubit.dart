@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:perfect/repositories/course_repository.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerState {
@@ -7,41 +8,55 @@ class VideoPlayerState {
   final Duration duration;
   final bool initialized;
   final bool showControls;
+  final String courseId;
+  final String videoId;
 
-  VideoPlayerState({
-    required this.isPlaying,
-    required this.position,
-    required this.duration,
-    required this.initialized,
-    required this.showControls,
-  });
+  VideoPlayerState(
+      {required this.isPlaying,
+      required this.position,
+      required this.duration,
+      required this.initialized,
+      required this.showControls,
+      required this.courseId,
+      required this.videoId});
 
-  VideoPlayerState copyWith(
-      {bool? isPlaying,
-      Duration? position,
-      Duration? duration,
-      bool? initialized,
-      bool? showControls}) {
+  VideoPlayerState copyWith({
+    bool? isPlaying,
+    Duration? position,
+    Duration? duration,
+    bool? initialized,
+    bool? showControls,
+    String? courseId,
+    String? videoId,
+  }) {
     return VideoPlayerState(
       isPlaying: isPlaying ?? this.isPlaying,
       position: position ?? this.position,
       duration: duration ?? this.duration,
       initialized: initialized ?? this.initialized,
       showControls: showControls ?? this.showControls,
+      courseId: courseId ?? this.courseId,
+      videoId: videoId ?? this.videoId,
     );
   }
 }
 
 class VideoPlayerCubit extends Cubit<VideoPlayerState> {
   VideoPlayerController controller;
+  final String courseId;
+  final String videoId;
+  final CoursesRepository _coursesRepository = CoursesRepository();
 
-  VideoPlayerCubit(this.controller)
+  VideoPlayerCubit(this.controller,
+      {required this.courseId, required this.videoId})
       : super(VideoPlayerState(
           isPlaying: false,
           position: Duration.zero,
           duration: Duration.zero,
           initialized: false,
           showControls: false,
+          courseId: courseId,
+          videoId: videoId,
         )) {
     _init();
   }
@@ -56,6 +71,13 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
   }
 
   void _updateState() {
+    final pos = controller.value.position.inMilliseconds.toDouble();
+    final dur = controller.value.duration.inMilliseconds.toDouble();
+    print("$pos and $dur  these are in milliseconds ");
+
+    if (dur > 0 && pos >= dur * 0.95) {
+      _markVideoComplete(state.courseId, state.videoId);
+    }
     emit(state.copyWith(
       isPlaying: controller.value.isPlaying,
       position: controller.value.position,
@@ -63,8 +85,11 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
     ));
   }
 
-  /// 🔹 Load a new video URL
-  Future<void> loadVideo(String url) async {
+  _markVideoComplete(String courseId, String videoId) async {
+    await _coursesRepository.markVideoComplete(courseId, videoId);
+  }
+
+  Future<void> loadVideo(String url, String courseId, String videoId) async {
     await controller.pause();
     await controller.dispose();
 
@@ -74,12 +99,13 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
     controller.addListener(_updateState);
 
     emit(state.copyWith(
-      isPlaying: false,
-      position: Duration.zero,
-      duration: controller.value.duration,
-      initialized: true,
-      showControls: true,
-    ));
+        isPlaying: false,
+        position: Duration.zero,
+        duration: controller.value.duration,
+        initialized: true,
+        showControls: true,
+        courseId: courseId,
+        videoId: videoId));
   }
 
   void toggleControls() {
