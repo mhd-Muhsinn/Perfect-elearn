@@ -141,7 +141,8 @@ class _ProfileCompletionPageState extends State<ProfileCompletionPage> {
             email: emailController.text.trim(),
             Phonenumber: phoneNumberController.text.trim(),
           );
-          authBloc.add(CompleteProfileEvent(user: user, uid: user.uid));
+
+          authBloc.add(CompleteProfileEvent(user: user, uid: user.uid, context: context));
         }
       },
     );

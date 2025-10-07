@@ -13,7 +13,6 @@ class MyCoursesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext ctx) {
-
     ctx.read<MyLibraryCubit>().loadMyCourses();
     final responsive = ResponsiveConfig(ctx);
     return Scaffold(
@@ -25,6 +24,11 @@ class MyCoursesPage extends StatelessWidget {
   _buildCourseListCardsSection(BuildContext ctx, ResponsiveConfig responsive) {
     return BlocBuilder<MyLibraryCubit, MyLibraryState>(
       builder: (context, state) {
+        if (state.loading) {
+        return  Container(
+            child: Text('loadinggg'),
+          );
+        }
         return Padding(
           padding: EdgeInsets.symmetric(
             horizontal: responsive.percentWidth(0.03),
@@ -59,13 +63,11 @@ class MyCoursesPage extends StatelessWidget {
                         onToggleFavorite: () {
                           ctx
                               .read<MyLibraryCubit>()
-                              .toggleFavoriteCourse(course.id,ctx,responsive);
-
+                              .toggleFavoriteCourse(course.id, ctx, responsive);
                         },
                         onDeleteCourse: () {},
                         onViewCourse: () {},
                       );
-                     
                     },
                   ),
                 ),

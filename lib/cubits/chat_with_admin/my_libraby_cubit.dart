@@ -48,7 +48,6 @@ class MyLibraryCubit extends Cubit<MyLibraryState> {
 
   void addToFavoritesCourses(
       String courseId, BuildContext ctx, ResponsiveConfig size) async {
-    emit(state.copyWith(loading: true, error: null));
     try {
       if (userId == null) throw Exception("User not authenticated");
       final userRef =
@@ -67,14 +66,13 @@ class MyLibraryCubit extends Cubit<MyLibraryState> {
       }
       showCustomSnackbar(
           context: ctx, message: 'COURSE ADDED TO FAVORITES', size: size,backgroundColor: PColors.success);
-      emit(state.copyWith(loading: false));
     } catch (e) {
       emit(state.copyWith(loading: false, error: e.toString()));
     }
   }
 
 void toggleFavoriteCourse(String courseId,BuildContext ctx,ResponsiveConfig size) async {
-  emit(state.copyWith(loading: true, error: null));
+
   try {
     if (userId == null) throw Exception("User not authenticated");
 
@@ -106,7 +104,6 @@ void toggleFavoriteCourse(String courseId,BuildContext ctx,ResponsiveConfig size
     // refresh favorites
     await loadFavoriteCourses();
 
-    emit(state.copyWith(loading: false));
   } catch (e) {
     emit(state.copyWith(loading: false, error: e.toString()));
   }
@@ -115,7 +112,7 @@ void toggleFavoriteCourse(String courseId,BuildContext ctx,ResponsiveConfig size
 
   // Load user's favorite courses
   Future<void> loadFavoriteCourses() async {
-    emit(state.copyWith(loading: true, error: null));
+    
     try {
       if (userId == null) throw Exception("User not authenticated");
 
@@ -127,7 +124,7 @@ void toggleFavoriteCourse(String courseId,BuildContext ctx,ResponsiveConfig size
           List<String>.from(userDoc.data()?['favorites'] ?? []);
 
       if (favoriteIds.isEmpty) {
-        emit(state.copyWith(favoriteCourses: [], loading: false));
+        emit(state.copyWith(favoriteCourses: []));
         return;
       }
 
@@ -143,7 +140,7 @@ void toggleFavoriteCourse(String courseId,BuildContext ctx,ResponsiveConfig size
           await Future.wait(favoriteCoursesFutures);
 
       emit(state.copyWith(
-          favoriteCourses: favoriteCoursesWithVideos, loading: false));
+          favoriteCourses: favoriteCoursesWithVideos,));
     } catch (e) {
       emit(state.copyWith(error: e.toString(), loading: false));
     }

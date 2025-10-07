@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:perfect/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:perfect/repositories/auth_repository.dart';
@@ -31,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       CompleteProfileEvent event, Emitter<AuthState> emit) async {
     try {
       await _authRepository.completeProfile(event.user, event.uid);
+      
       emit(ProfileCompleted());
     } catch (e) {
       emit(ProfileCompletionError(message: e.toString()));

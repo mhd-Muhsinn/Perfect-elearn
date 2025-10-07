@@ -86,6 +86,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 authbloc.add(SignInEvent(
                   email: emailController.text.trim(),
                   password: passwordController.text.trim(),
+                  context: context
                 ));
               }
             },
@@ -96,7 +97,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   color: PColors.primary, fontWeight: FontWeight.bold)),
           const SizedBox(height: 15),
           InkWell(
-            onTap: () => authbloc.add(GoogleSignInEvent()),
+            onTap: () => authbloc.add(GoogleSignInEvent(context: context)),
             child: GoogleLogo(),
           ),
           const SizedBox(height: 20),

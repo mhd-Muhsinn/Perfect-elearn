@@ -39,6 +39,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         'myCourses': FieldValue.arrayUnion([event.course.id])
       });
     }
+    await _courseRepository.addPurchaseToSalesReport(
+        event.course.name, customerName, event.course.price);
     await _courseRepository.addPurchasedCourse(event.course.id);
     emit(PaymentSuccess(event.response.paymentId ?? ''));
     RazorpayService.dispose();

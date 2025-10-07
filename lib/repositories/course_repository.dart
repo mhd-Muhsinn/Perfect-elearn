@@ -13,8 +13,6 @@ class CoursesRepository {
     return _firestore.collection('courses').orderBy('name').snapshots();
   }
 
-
-
   //function to add video id to courseprogress map . it will mark each course how may videos has completed..
   Future<void> markVideoComplete(String courseId, String videoId) async {
     final userId = _auth.currentUser!.uid;
@@ -54,6 +52,21 @@ class CoursesRepository {
 
     await _firestore.collection('users').doc(userId).update({
       'courseProgress': courseProgressMap,
+    });
+  }
+
+  //function to add purchase report sales report collection
+  Future<void> addPurchaseToSalesReport(
+      String courseName, String customerName, String amount) async {
+    await _firestore
+        .collection('course_sales_report')
+        .doc('sales_history')
+        .collection('individual_sale')
+        .add({
+      "name": courseName,
+      "Customer": customerName,
+      "amount": amount,
+      "timestamp": FieldValue.serverTimestamp(),
     });
   }
 }

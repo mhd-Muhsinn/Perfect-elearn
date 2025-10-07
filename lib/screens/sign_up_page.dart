@@ -171,7 +171,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             name: nameController.text,
             Phonenumber: phoneNumberController.text,
           );
-          authBloc.add(SignUpEvent(user: user));
+          authBloc.add(SignUpEvent(user: user, context: context));
         }
 
       },
@@ -190,7 +190,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget _buildGoogleLogin(AuthBloc authBloc) {
     return InkWell(
-      onTap: () => authBloc.add(GoogleSignInEvent()),
+      onTap: () => authBloc.add(GoogleSignInEvent(context: context)),
       child: const GoogleLogo(),
     );
   }

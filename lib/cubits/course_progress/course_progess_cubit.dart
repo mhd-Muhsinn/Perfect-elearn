@@ -73,4 +73,11 @@ class CourseProgressCubit extends Cubit<CourseProgressState> {
       });
     }
   }
+  double getProgressForCourse(String courseId) {
+  final total = state.totalVideos[courseId] ?? 0;
+  final completed = state.completedVideos[courseId]?.length ?? 0;
+  if (total == 0) return 0;
+  return completed / total;
+ }
+
 }
