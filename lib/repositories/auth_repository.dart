@@ -13,7 +13,7 @@ class AuthRepository {
     return _auth.currentUser;
   }
 
-    String getCurrentUserId() {
+  String getCurrentUserId() {
     return _auth.currentUser!.uid;
   }
 
@@ -26,6 +26,10 @@ class AuthRepository {
       _operations.setUser(user, user0.uid);
     }
     return user0;
+  }
+
+  Future<UserModel?> getUserDetails(String uid) async {
+    return _operations.getUserDetails(uid);
   }
 
   Future<User?> signInUser(String email, String password) async {

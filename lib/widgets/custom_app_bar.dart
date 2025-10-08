@@ -19,12 +19,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: PColors.primary, // Custom color
       centerTitle: true,
       elevation: 4,
+      automaticallyImplyLeading: showBackButton,
       leading: showBackButton
           ? IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () => Navigator.of(context).pop(),
             )
           : null,
+      
       title: Text(
         title,
         style: const TextStyle(

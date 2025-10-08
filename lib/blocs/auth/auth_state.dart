@@ -13,7 +13,13 @@ class AuthLoading extends AuthState {}
 
 class Authenticated extends AuthState {
   User? user;
-  Authenticated(this.user);
+  final UserModel? userModel;
+  Authenticated(
+    this.user,
+    {
+      this.userModel
+    }
+  );
 }
 
 class GoogleAuthenticated extends AuthState {
@@ -22,7 +28,10 @@ class GoogleAuthenticated extends AuthState {
 
 class NeedProfileCompletion extends AuthState {
   final User user;
-  const NeedProfileCompletion(this.user);
+
+  const NeedProfileCompletion(
+    this.user,
+  );
 }
 
 class UnAuthenticated extends AuthState {
@@ -35,7 +44,11 @@ class AuthenticatedError extends AuthState {
   const AuthenticatedError({required this.message});
 }
 
-class ProfileCompleted extends AuthState {}
+class ProfileCompleted extends AuthState {
+  final UserModel user;
+
+  const ProfileCompleted(this.user);
+}
 
 class ProfileCompletionError extends AuthState {
   String message;

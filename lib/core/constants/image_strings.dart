@@ -5,4 +5,8 @@ class PImages {
 
   static const appLogo = '';
 
+  static const placeholderimage = 'assets/images/place_holder.png';
+  static const placeholderimagewithbackgorund =
+      'assets/images/place_holder2.png';
+  static const noDatalottie = 'assets/lottie/no_data.json';
 }

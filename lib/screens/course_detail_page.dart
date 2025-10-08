@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfect/blocs/payment/payment_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
+import 'package:perfect/cubits/chat_with_admin/course_list_cubit.dart';
+import 'package:perfect/cubits/user_cubit.dart/user_cubit.dart';
 import 'package:perfect/models/course_model.dart';
 import 'package:perfect/screens/course_video_player_screen.dart';
 import 'package:perfect/widgets/custom_app_bar.dart';
@@ -20,13 +22,18 @@ class CourseDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext ctx) {
     final size = ResponsiveConfig(ctx);
+    print(ctx.watch<UserCubit>().state?.name);
     return BlocProvider(
-      create: (_) => PaymentBloc(),
+      create: (_) => PaymentBloc(ctx.watch<UserCubit>().state?.name ?? ''),
       child: BlocListener<PaymentBloc, PaymentState>(
           listener: (context, state) {
             if (state is PaymentSuccess) {
               showCustomSnackbar(
-                  context: context, message: 'COURSE PURCHASED...', size: size,backgroundColor: PColors.success);
+                  context: context,
+                  message: 'COURSE PURCHASED...',
+                  size: size,
+                  backgroundColor: PColors.success);
+              context.read<CourseListCubit>().loadCourses();
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -34,9 +41,11 @@ class CourseDetailsPage extends StatelessWidget {
                           CourseScreenWithVideo(course: course)));
             }
             if (state is PaymentFailure) {
-               showCustomSnackbar(
-                  context: context, message: 'Payment failed retry..', size: size,backgroundColor: PColors.error);
-            
+              showCustomSnackbar(
+                  context: context,
+                  message: 'Payment failed retry..',
+                  size: size,
+                  backgroundColor: PColors.error);
             }
           },
           child: Scaffold(
@@ -211,7 +220,7 @@ Widget _buildClassesTab(
 class _HeaderImage extends StatelessWidget {
   final String imageUrl;
   final Object? heroTag;
-   _HeaderImage({required this.imageUrl, this.heroTag});
+  _HeaderImage({required this.imageUrl, this.heroTag});
 
   @override
   Widget build(BuildContext context) {

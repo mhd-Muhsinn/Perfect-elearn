@@ -6,6 +6,7 @@ import 'package:perfect/cubits/chat_with_admin/my_libraby_cubit.dart';
 import 'package:perfect/screens/course_video_player_screen.dart';
 import 'package:perfect/widgets/custom_app_bar.dart';
 import 'package:perfect/widgets/my_course_list_card.dart';
+import 'package:perfect/widgets/my_course_list_card_shimmer.dart';
 import 'package:perfect/widgets/my_courses_page_bottom_sheet.dart';
 
 class MyCoursesPage extends StatelessWidget {
@@ -25,8 +26,9 @@ class MyCoursesPage extends StatelessWidget {
     return BlocBuilder<MyLibraryCubit, MyLibraryState>(
       builder: (context, state) {
         if (state.loading) {
-        return  Container(
-            child: Text('loadinggg'),
+          return ListView.builder(
+            itemCount: 5,
+            itemBuilder: (context, index) => MyCourseListCardShimmer(),
           );
         }
         return Padding(
@@ -48,7 +50,8 @@ class MyCoursesPage extends StatelessWidget {
                             builder: (context) =>
                                 CourseScreenWithVideo(course: course)));
                   },
-                  child: MyCourseListCard(
+                  child: 
+                  MyCourseListCard(
                     name: course.name,
                     courseType: course.courseType,
                     thumbnail: course.thumbnail.trim(),

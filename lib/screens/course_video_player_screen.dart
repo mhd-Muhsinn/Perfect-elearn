@@ -35,7 +35,7 @@ class CourseVideoPlayerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = ResponsiveConfig(context);
-    context.read<CourseListCubit>().loadcourse();
+    context.read<CourseListCubit>().loadCourses();
     return Scaffold(
       extendBodyBehindAppBar: true,
       extendBody: true,

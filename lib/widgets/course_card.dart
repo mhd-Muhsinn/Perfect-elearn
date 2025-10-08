@@ -1,6 +1,7 @@
 // course_card.dart
 import 'package:flutter/material.dart';
 import 'package:perfect/core/constants/colors.dart';
+import 'package:perfect/core/constants/image_strings.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
 import 'package:perfect/core/utils/text_cutoff_helper.dart';
 import 'package:perfect/models/course_model.dart';
@@ -43,33 +44,10 @@ class CourseListCard extends StatelessWidget {
               width: responsive.percentWidth(0.45),
               height: responsive.percentWidth(0.28),
               color: PColors.backgrndPrimary,
-              child: Image.network(
-                thumbnail,
+              child: FadeInImage.assetNetwork(
                 fit: BoxFit.cover,
-                // shimmer while loading
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
-                    child: Container(color: Colors.white),
-                  );
-                },
-                // icon if error occurs
-                errorBuilder: (context, error, stackTrace) {
-                  return Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
-                    child: Container(
-                      color: Colors.white,
-                      child: Icon(
-                        Icons.image,
-                        size: responsive.percentWidth(0.1),
-                        color: Colors.grey,
-                      ),
-                    ),
-                  );
-                },
+                 placeholder: PImages.placeholderimagewithbackgorund,
+                image: thumbnail,
               ),
             ),
           ),

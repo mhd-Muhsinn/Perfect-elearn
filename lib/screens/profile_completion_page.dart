@@ -5,6 +5,7 @@ import 'package:perfect/blocs/auth/auth_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
 import 'package:perfect/core/utils/form_validator.dart';
+import 'package:perfect/cubits/user_cubit.dart/user_cubit.dart';
 import 'package:perfect/models/user_model.dart';
 import 'package:perfect/widgets/custom_button.dart';
 import 'package:perfect/widgets/custom_text_form_field.dart';
@@ -26,7 +27,7 @@ class _ProfileCompletionPageState extends State<ProfileCompletionPage> {
   final TextEditingController emailController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext ctx) {
     final uid = ModalRoute.of(context)!.settings.arguments as String;
     final Size = ResponsiveConfig(context);
     final authBloc = BlocProvider.of<AuthBloc>(context);
@@ -34,6 +35,11 @@ class _ProfileCompletionPageState extends State<ProfileCompletionPage> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is ProfileCompleted) {
+          ctx.read<UserCubit>().setUserDetails(
+          email: state.user.email!,
+          uid:state.user.uid!,
+          name: state.user.name!,
+          phone: state.user.Phonenumber!);
           Navigator.pushNamedAndRemoveUntil(
               context, '/homepage', (route) => false);
         }

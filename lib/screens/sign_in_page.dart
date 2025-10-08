@@ -4,6 +4,7 @@ import 'package:perfect/blocs/auth/auth_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
 import 'package:perfect/core/utils/form_validator.dart';
+import 'package:perfect/cubits/user_cubit.dart/user_cubit.dart';
 import 'package:perfect/widgets/custom_button.dart';
 import 'package:perfect/widgets/custom_snackbar.dart';
 import 'package:perfect/widgets/custom_text_form_field.dart';
@@ -23,9 +24,9 @@ class _SignInScreenState extends State<SignInScreen> {
   final passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    final responsive = ResponsiveConfig(context);
-    final authbloc = BlocProvider.of<AuthBloc>(context);
+  Widget build(BuildContext ctx) {
+    final responsive = ResponsiveConfig(ctx);
+    final authbloc = BlocProvider.of<AuthBloc>(ctx);
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
@@ -41,6 +42,11 @@ class _SignInScreenState extends State<SignInScreen> {
           showCustomSnackbar(
               context: context, message: state.message, size: responsive,backgroundColor: PColors.error);
         } else if (state is Authenticated) {
+           ctx.read<UserCubit>().setUserDetails(
+              uid: state.userModel!.uid!,
+              name: state.userModel!.name!,
+              email: state.userModel!.email!,
+              phone: state.userModel!.Phonenumber!);
           Navigator.pushNamed(context, '/homepage');
         }
       },
@@ -86,7 +92,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 authbloc.add(SignInEvent(
                   email: emailController.text.trim(),
                   password: passwordController.text.trim(),
-                  context: context
+            
                 ));
               }
             },

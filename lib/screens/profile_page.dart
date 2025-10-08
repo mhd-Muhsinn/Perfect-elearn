@@ -5,6 +5,7 @@ import 'package:perfect/blocs/auth/auth_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
 import 'package:perfect/core/constants/image_strings.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
+import 'package:perfect/cubits/user_cubit.dart/user_cubit.dart';
 import 'package:perfect/widgets/option_tile.dart';
 import 'package:perfect/widgets/pop_dialog.dart';
 
@@ -105,6 +106,7 @@ class ProfilePage extends StatelessWidget {
             title: 'Logout',
             onTap: () {
               PopDialogs.showLogoutDialog(context, () {
+                context.read<UserCubit>().clearUser();
                 context.read<AuthBloc>().add(LogOutEvent());
               });
             },

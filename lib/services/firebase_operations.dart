@@ -18,4 +18,18 @@ class FirebaseOperations {
     final userDoc = await _firebase.collection('users').doc(uid).get();
     return userDoc;
   }
+  Future<UserModel?> getUserDetails(String uid) async {
+  final userDoc = await _firebase.collection('users').doc(uid).get();
+  if (!userDoc.exists) return null;  // handle no user data found
+  final data = userDoc.data();
+  if (data == null) return null;
+
+  return UserModel(
+    uid: data['uid'],
+    name: data['name'],
+    email: data['email'],
+    Phonenumber: data['phone'],
+  );
+ }
+
 }

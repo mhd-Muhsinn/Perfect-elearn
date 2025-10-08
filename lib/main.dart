@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfect/blocs/auth/auth_bloc.dart';
+import 'package:perfect/blocs/chat/chat_bloc.dart';
 import 'package:perfect/blocs/chat_message/chat_message_bloc.dart';
 import 'package:perfect/cubits/chat_with_admin/chat_with_admin_cubit.dart';
 import 'package:perfect/cubits/chat_with_admin/course_list_cubit.dart';
@@ -32,7 +33,8 @@ void main() async {
         ),
         BlocProvider(create: (context) => ChatMessageBloc()),
         BlocProvider(create: (context)=> ChatWithAdminCubit()),
-        BlocProvider(create: (context)=> CourseProgressCubit())
+        BlocProvider(create: (context)=> CourseProgressCubit()),
+        BlocProvider(create: (context)=> ChatBloc()..add(LoadTutorsEvent()))
         
       ],
       child: RepositoryProvider(

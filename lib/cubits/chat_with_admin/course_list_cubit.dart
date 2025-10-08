@@ -20,9 +20,6 @@ class CourseListCubit extends Cubit<CourseListState> {
 
   CourseListCubit(this.repository) : super(CourseListLoading());
 
-  Future<void> loadcourse() async {
-    await loadCourses();
-  }
 
   Future<void> loadCourses() async {
     try {

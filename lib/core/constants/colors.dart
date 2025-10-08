@@ -17,6 +17,7 @@ class PColors {
 
   //Background Container Colors
   static const Color containerBackground = Color.fromARGB(255, 255, 176, 72);
+  static const Color lightprimary = Color.fromARGB(255, 255, 214, 153);
 
   //gradient colors
   static const Color gradient1 = Color.fromRGBO(187, 63, 221, 1);

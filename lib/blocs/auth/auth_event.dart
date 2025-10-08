@@ -13,8 +13,7 @@ class CheckLoginStatusEvent extends AuthEvent {}
 class SignInEvent extends AuthEvent {
   final String email;
   final String password;
-  final BuildContext context;
-  const SignInEvent({required this.context,required this.email, required this.password});
+  const SignInEvent({required this.email, required this.password});
 }
 
 //SignUP or Register

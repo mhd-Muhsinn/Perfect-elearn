@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:perfect/core/constants/colors.dart';
+import 'package:perfect/core/constants/image_strings.dart';
 import 'package:perfect/core/utils/configs/resposive_config.dart';
 import 'package:perfect/cubits/course_progress/course_progess_cubit.dart';
 import 'package:perfect/cubits/course_progress/course_progress_state.dart';
@@ -46,35 +47,36 @@ class MyCourseListCard extends StatelessWidget {
                   width: responsive.percentWidth(0.45),
                   height: responsive.percentWidth(0.28),
                   color: PColors.backgrndPrimary,
-                  child: Image.network(
-                    thumbnail,
-                    fit: BoxFit.cover,
-                    // shimmer while loading
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        child: Container(color: Colors.white),
-                      );
-                    },
-                    // icon if error occurs
-                    errorBuilder: (context, error, stackTrace) {
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        child: Container(
-                          color: Colors.white,
-                          child: Icon(
-                            Icons.image,
-                            size: responsive.percentWidth(0.1),
-                            color: Colors.grey,
+                  child: FadeInImage.assetNetwork(
+                fit: BoxFit.cover,
+                 placeholder: PImages.placeholderimagewithbackgorund,
+                image: thumbnail,
+                imageErrorBuilder: (context, error, stackTrace) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Shimmer.fromColors(
+                                baseColor: PColors.shimmerbasecolor,
+                                highlightColor: PColors.shimmerhighlightcolor,
+                                child: Container(
+                                  height: 200,
+                                  width: double.infinity,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Image.asset(
+                                PImages.placeholderimage,
+                                height: 80,
+                                width: 80,
+                                fit: BoxFit.contain,
+                              ),
+                            ],
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                        );
+                }
+                ),)
               ),
 
               SizedBox(width: responsive.percentWidth(0.04)),

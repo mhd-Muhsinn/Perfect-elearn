@@ -5,7 +5,9 @@ import 'package:perfect/core/utils/configs/resposive_config.dart';
 import 'package:perfect/cubits/chat_with_admin/my_libraby_cubit.dart';
 import 'package:perfect/screens/course_video_player_screen.dart';
 import 'package:perfect/widgets/custom_app_bar.dart';
+import 'package:perfect/widgets/lottie/no_data.dart';
 import 'package:perfect/widgets/my_course_list_card.dart';
+import 'package:perfect/widgets/my_course_list_card_shimmer.dart';
 import 'package:perfect/widgets/my_courses_page_bottom_sheet.dart';
 
 class MyFavoriteCoursesPage extends StatelessWidget {
@@ -24,9 +26,16 @@ class MyFavoriteCoursesPage extends StatelessWidget {
   _buildCourseListCardsSection(BuildContext ctx, ResponsiveConfig responsive) {
     return BlocBuilder<MyLibraryCubit, MyLibraryState>(
       builder: (context, state) {
-        if (state.favoriteCourses.isEmpty) {
-          return Center(child: Text("NO FAVORITE COURSES YOU HAVE"));
+        if (state.loading) {
+          return ListView.builder(
+            itemCount: 5,
+            itemBuilder: (context, index) => MyCourseListCardShimmer(),
+          );
         }
+        if (state.favoriteCourses.isEmpty) {
+          return Center(child: NoData());
+        }
+        
         return Padding(
           padding: EdgeInsets.symmetric(
             horizontal: responsive.percentWidth(0.03),
@@ -62,7 +71,7 @@ class MyFavoriteCoursesPage extends StatelessWidget {
                         onToggleFavorite: () {
                           ctx
                               .read<MyLibraryCubit>()
-                              .toggleFavoriteCourse(course.id,ctx,responsive);
+                              .toggleFavoriteCourse(course.id, ctx, responsive);
                         },
                         onDeleteCourse: () {},
                         onViewCourse: () {},

@@ -1,6 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:perfect/cubits/user_cubit.dart/user_cubit.dart';
 import 'package:perfect/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:perfect/repositories/auth_repository.dart';
@@ -18,22 +22,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<CompleteProfileEvent>(_profileCompletion);
     on<ForgotPasswordEvent>(_forgotPassword);
   }
-  Future<void> _forgotPassword(ForgotPasswordEvent event, Emitter<AuthState> emit) async {
-  emit(ForgotPasswordLoading());
-  try {
-    await _authRepository.forgotPasswordemail(event.email);
-    emit(ForgotPasswordSuccess());
-  } catch (e) {
-    emit(ForgotPasswordFailure(message: e.toString()));
+  Future<void> _forgotPassword(
+      ForgotPasswordEvent event, Emitter<AuthState> emit) async {
+    emit(ForgotPasswordLoading());
+    try {
+      await _authRepository.forgotPasswordemail(event.email);
+      emit(ForgotPasswordSuccess());
+    } catch (e) {
+      emit(ForgotPasswordFailure(message: e.toString()));
+    }
   }
-}
 
   Future<void> _profileCompletion(
       CompleteProfileEvent event, Emitter<AuthState> emit) async {
     try {
       await _authRepository.completeProfile(event.user, event.uid);
-      
-      emit(ProfileCompleted());
+      emit(ProfileCompleted(event.user));
     } catch (e) {
       emit(ProfileCompletionError(message: e.toString()));
     }
@@ -48,7 +52,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (result.isNew) {
           emit(NeedProfileCompletion(result.user));
         } else {
-          emit(Authenticated(result.user));
+          final userModel =
+              await _authRepository.getUserDetails(result.user.uid);
+          emit(Authenticated(result.user,userModel: userModel));
         }
       } else {
         emit(UnAuthenticated());
@@ -64,7 +70,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final user =
           await _authRepository.signInUser(event.email, event.password);
       if (user != null) {
-        emit(Authenticated(user));
+         final userModel =
+              await _authRepository.getUserDetails(user.uid);
+        emit(Authenticated(user,userModel: userModel));
       } else {
         emit(UnAuthenticated());
       }
@@ -87,11 +95,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user = await _authRepository.signUpUser(event.user);
       if (user != null) {
-        emit(Authenticated(user));
+        emit(Authenticated(user, userModel: event.user));
       } else {
         emit(UnAuthenticated());
       }
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       emit(AuthenticatedError(message: e.toString()));
     }
   }

@@ -8,6 +8,8 @@ import 'package:perfect/cubits/chat_with_admin/course_list_state.dart';
 import 'package:perfect/repositories/course_repository.dart';
 import 'package:perfect/screens/course_detail_page.dart';
 import 'package:perfect/widgets/course_card.dart';
+import 'package:perfect/widgets/course_list_card_shimmer.dart';
+import 'package:perfect/widgets/lottie/no_data.dart';
 import 'package:perfect/widgets/search_box.dart';
 
 class CoursesListView extends StatelessWidget {
@@ -24,24 +26,27 @@ class CoursesListContent extends StatelessWidget {
   const CoursesListContent({super.key});
   @override
   Widget build(BuildContext context) {
-    context.read<CourseListCubit>().loadcourse();
+    context.read<CourseListCubit>().loadCourses();
     final responsive = ResponsiveConfig(context);
     return Scaffold(
       backgroundColor: PColors.backgrndPrimary,
       body: Column(
         children: [
-          
           SearchBox(responsive: responsive),
           Expanded(
             child: BlocBuilder<CourseListCubit, CourseListState>(
               builder: (context, state) {
                 if (state is CourseListLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return ListView.builder(
+                    itemCount: 5,
+                    itemBuilder: (context, index) =>
+                        const CourseListCardShimmer(),
+                  );
                 } else if (state is CourseListError) {
-                  return Center(child: Text(state.message));
+                  return NoData();
                 } else if (state is CourseListLoaded) {
                   if (state.courses.isEmpty) {
-                    return const Center(child: Text('No courses found.'));
+                    return NoData();
                   }
                   return Padding(
                     padding: EdgeInsets.symmetric(
@@ -94,6 +99,4 @@ class CoursesListContent extends StatelessWidget {
       ),
     );
   }
-
- 
 }

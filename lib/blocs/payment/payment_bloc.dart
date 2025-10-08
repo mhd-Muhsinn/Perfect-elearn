@@ -12,8 +12,9 @@ part 'payment_event.dart';
 part 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
+  final String username;
   final CoursesRepository _courseRepository = CoursesRepository();
-  PaymentBloc() : super(PaymentInitial()) {
+  PaymentBloc(this.username) : super(PaymentInitial()) {
     on<StartPayment>(_onStartPayment);
     on<PaymentSucceeded>(_onPaymentSucceeded);
     on<PaymentFailed>(_onPaymentFailed);
@@ -40,7 +41,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       });
     }
     await _courseRepository.addPurchaseToSalesReport(
-        event.course.name, customerName, event.course.price);
+        event.course.name, username, event.course.price);
     await _courseRepository.addPurchasedCourse(event.course.id);
     emit(PaymentSuccess(event.response.paymentId ?? ''));
     RazorpayService.dispose();
